@@ -1,2 +1,0 @@
-# PrestoReserve
-## Scopo
