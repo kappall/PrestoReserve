@@ -1,0 +1,13 @@
+package com.karamellabadie.projects.PrestoReserve;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class PrestoReserveApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
