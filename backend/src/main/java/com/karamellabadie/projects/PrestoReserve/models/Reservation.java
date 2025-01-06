@@ -1,4 +1,4 @@
-package com.karamellabadie.projects.PrestoReserve.model;
+package com.karamellabadie.projects.PrestoReserve.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -12,10 +12,20 @@ public class Reservation {
 
     private String name;
     private String email;
+    @Column(nullable = false)
     private LocalDateTime reservationDate;
-    private String status;
+    private String status = "Active";
 
-    // Getters e Setters
+    public Reservation(String name, String email, LocalDateTime reservationDate) {
+        this.name = name;
+        this.email = email;
+        this.reservationDate = reservationDate;
+        this.status = "Active";
+    }
+
+    public Reservation() {
+
+    }
 
     public UUID getId() {
         return id;

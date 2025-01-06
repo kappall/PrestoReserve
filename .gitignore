@@ -1,25 +1,18 @@
-HELP.md
+# Ignora tutte le cartelle target (sia di backend che frontend)
 target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Non ignorare i wrapper di Maven
+!.mvn/wrapper/maven-wrapper.jar
 
-### IntelliJ IDEA ###
-.idea
+# Ignora IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# Ignora NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -29,5 +22,27 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# Ignora VS Code
 .vscode/
+
+# Frontend (React.js)
+frontend/presto-reservation/README.md
+frontend/presto-reservation/node_modules/
+frontend/presto-reservation/.pnp
+frontend/presto-reservation/.pnp.js
+frontend/presto-reservation/coverage/
+frontend/presto-reservation/build/
+frontend/presto-reservation/.DS_Store
+frontend/presto-reservation/.env.local
+frontend/presto-reservation/.env.development.local
+frontend/presto-reservation/.env.test.local
+frontend/presto-reservation/.env.production.local
+frontend/presto-reservation/npm-debug.log*
+frontend/presto-reservation/yarn-debug.log*
+frontend/presto-reservation/yarn-error.log*
+
+# Altri file temporanei
+*.log
+.DS_Store
+*.swp
+*.swo
