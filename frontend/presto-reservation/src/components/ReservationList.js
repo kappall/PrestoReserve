@@ -72,7 +72,6 @@ const ReservationList = () => {
     };
     return (
         <div>
-            <h1 className="title">Lista Prenotazioni</h1>
             <div>
                 <input
                     type="text"
