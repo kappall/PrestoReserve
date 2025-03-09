@@ -43,7 +43,7 @@ const ReservationList = () => {
         const reservationToPost = {
             name: newReservation.name,
             email: newReservation.email,
-            reservationDate: newReservation.reservationDate+"T00:00",
+            reservationDate: newReservation.reservationDate,
             reservationHour: newReservation.reservationHour,
             status: "Active",
         };

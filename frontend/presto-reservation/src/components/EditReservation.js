@@ -65,7 +65,7 @@ const EditReservationModal = ({ show, onClose, reservation, onSave }) => {
                             onChange={(e) =>
                                 setEditedReservation({
                                     ...editedReservation,
-                                    reservationDate: e.target.value + "T00:00",
+                                    reservationDate: e.target.value,
                                 })
                             }
                         />

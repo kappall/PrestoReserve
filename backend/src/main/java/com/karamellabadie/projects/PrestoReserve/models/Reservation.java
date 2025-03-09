@@ -1,7 +1,7 @@
 package com.karamellabadie.projects.PrestoReserve.models;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -13,11 +13,11 @@ public class Reservation {
     private String name;
     private String email;
     @Column(nullable = false)
-    private LocalDateTime reservationDate;
+    private LocalDate reservationDate;
     private String reservationHour;
     private String status = "Active";
 
-    public Reservation(String name, String email, LocalDateTime reservationDate, String reservationHour) {
+    public Reservation(String name, String email, LocalDate reservationDate, String reservationHour) {
         this.name = name;
         this.email = email;
         this.reservationDate = reservationDate;
@@ -53,7 +53,7 @@ public class Reservation {
         this.email = email;
     }
 
-    public LocalDateTime getReservationDate() {
+    public LocalDate getReservationDate() {
         return reservationDate;
     }
 
@@ -77,7 +77,7 @@ public class Reservation {
                 '}';
     }
 
-    public void setReservationDate(LocalDateTime reservationDate) {
+    public void setReservationDate(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
     }
 

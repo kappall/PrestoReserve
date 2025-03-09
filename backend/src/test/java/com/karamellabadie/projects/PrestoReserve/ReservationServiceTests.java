@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -21,7 +21,7 @@ public class ReservationServiceTests {
 
     @Test
     public void testCreateReservation() {
-        Reservation reservation = new Reservation("Mario", "mario@example.com", LocalDateTime.now(), "00:00");
+        Reservation reservation = new Reservation("Mario", "mario@example.com", LocalDate.now(), "00:00");
         reservationService.createReservation(reservation);
 
         // Verifica che la prenotazione sia stata salvata correttamente
