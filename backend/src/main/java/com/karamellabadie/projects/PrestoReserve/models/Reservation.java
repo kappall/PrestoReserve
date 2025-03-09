@@ -14,12 +14,14 @@ public class Reservation {
     private String email;
     @Column(nullable = false)
     private LocalDateTime reservationDate;
+    private String reservationHour;
     private String status = "Active";
 
-    public Reservation(String name, String email, LocalDateTime reservationDate) {
+    public Reservation(String name, String email, LocalDateTime reservationDate, String reservationHour) {
         this.name = name;
         this.email = email;
         this.reservationDate = reservationDate;
+        this.reservationHour = reservationHour;
         this.status = "Active";
     }
 
@@ -53,6 +55,26 @@ public class Reservation {
 
     public LocalDateTime getReservationDate() {
         return reservationDate;
+    }
+
+    public String getReservationHour() {
+        return reservationHour;
+    }
+
+    public void setReservationHour(String reservationHour) {
+        this.reservationHour = reservationHour;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", reservationDate=" + reservationDate +
+                ", reservationHour='" + reservationHour + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 
     public void setReservationDate(LocalDateTime reservationDate) {

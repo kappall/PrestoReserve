@@ -14,29 +14,24 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
 
-    // Iniettiamo il repository tramite il costruttore
     @Autowired
     public ReservationService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
 
-    // Crea una nuova prenotazione
     public Reservation createReservation(Reservation reservation) {
-        // Puoi fare logiche aggiuntive qui, ad esempio validazioni, calcoli, ecc.
+        System.out.println(reservation.toString());
         return reservationRepository.save(reservation);
     }
 
-    // Recupera tutte le prenotazioni
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
     }
 
-    // Recupera una prenotazione per ID
     public Optional<Reservation> getReservationById(UUID id) {
         return reservationRepository.findById(id);
     }
 
-    // Aggiorna una prenotazione esistente
     public Reservation updateReservation(UUID id, Reservation updatedReservation) {
         Optional<Reservation> reservationOpt = reservationRepository.findById(id);
         if (reservationOpt.isPresent()) {
@@ -45,6 +40,7 @@ public class ReservationService {
             reservation.setName(updatedReservation.getName());
             reservation.setEmail(updatedReservation.getEmail());
             reservation.setReservationDate(updatedReservation.getReservationDate());
+            reservation.setReservationHour(updatedReservation.getReservationHour());
             reservation.setStatus(updatedReservation.getStatus());
             return reservationRepository.save(reservation);
         }

@@ -21,7 +21,7 @@ public class ReservationServiceTests {
 
     @Test
     public void testCreateReservation() {
-        Reservation reservation = new Reservation("Mario", "mario@example.com", LocalDateTime.now());
+        Reservation reservation = new Reservation("Mario", "mario@example.com", LocalDateTime.now(), "00:00");
         reservationService.createReservation(reservation);
 
         // Verifica che la prenotazione sia stata salvata correttamente

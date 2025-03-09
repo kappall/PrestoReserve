@@ -7,7 +7,8 @@ const ReservationList = () => {
     const [newReservation, setNewReservation] = useState({
         name: "",
         email: "",
-        reservationDate: ""
+        reservationDate: "",
+        reservationHour: "",
     });
     const [selectedReservation, setSelectedReservation] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -18,32 +19,42 @@ const ReservationList = () => {
                 setReservations(response.data);
             })
             .catch(error => {
-                console.error('Errore nel recupero delle prenotazioni:', error);
+                console.error('Error retrieving reservations:', error);
             });
     }, []);
 
+    const generateTimeOptions = () => {
+        const times = [];
+        for (let hour = 12; hour < 22; hour++) {
+            for (let minute = 0; minute < 60; minute += 15) {
+                const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                times.push(time);
+            }
+        }
+        return times;
+    };
+
     const addReservation = () => {
-        // Validazione dei campi
-        if (!newReservation.name || !newReservation.email || !newReservation.reservationDate) {
-            console.error("Campi obbligatori mancanti.");
+        if (!newReservation.name || !newReservation.email || !newReservation.reservationDate || !newReservation.reservationHour) {
+            console.error("Mandatory fields missing.");
             return;
         }
 
-        // Creazione del corpo della richiesta
         const reservationToPost = {
             name: newReservation.name,
             email: newReservation.email,
-            reservationDate: newReservation.reservationDate + "T" + newReservation.hour+":00",
-            status: "attiva"
+            reservationDate: newReservation.reservationDate+"T00:00",
+            reservationHour: newReservation.reservationHour,
+            status: "Active",
         };
 
         axios.post('http://localhost:8080/api/reservations', reservationToPost)
             .then((response) => {
-                setReservations([...reservations, response.data]); // Aggiunge la nuova prenotazione alla lista
-                setNewReservation({ name: "", email: "", reservationDate: "" }); // Resetta il form
+                setReservations([...reservations, response.data]);
+                setNewReservation({ name: "", email: "", reservationDate: "", reservationHour: "" });
             })
             .catch((error) => {
-                console.error("Errore durante il POST:", error.response || error);
+                console.error("Error during POST:", error.response || error);
             });
     };
 
@@ -54,10 +65,12 @@ const ReservationList = () => {
             })
             .catch((error) => console.error("Error deleting reservation:", error));
     };
+
     const editReservation = (reservation) => {
         setSelectedReservation(reservation);
         setShowEditModal(true);
     };
+
     const saveEditedReservation = (updatedReservation) => {
         axios
             .put(`http://localhost:8080/api/reservations/${updatedReservation.id}`, updatedReservation)
@@ -68,54 +81,54 @@ const ReservationList = () => {
                     )
                 );
             })
-            .catch((error) => console.error("Errore aggiornamento:", error));
+            .catch((error) => console.error("Error updating reservation:", error));
     };
+
     return (
         <div>
             <div>
+                <h2>Add a Reservation</h2>
                 <input
                     type="text"
                     placeholder="Name"
                     value={newReservation.name}
-                    onChange={(e) => setNewReservation({...newReservation, name: e.target.value})}
+                    onChange={(e) => setNewReservation({ ...newReservation, name: e.target.value })}
                 />
                 <input
                     type="email"
                     placeholder="Email"
                     value={newReservation.email}
-                    onChange={(e) => setNewReservation({...newReservation, email: e.target.value})}
-                /><br/>
+                    onChange={(e) => setNewReservation({ ...newReservation, email: e.target.value })}
+                />
+                <br />
                 <input
                     type="date"
                     placeholder="Reservation Date"
-                    value={newReservation.reservationDate?.split("T")[0] || ""}
-                    onChange={(e) =>
-                        setNewReservation({
-                            ...newReservation,
-                            reservationDate:
-                                e.target.value
-                        })
-                    }
+                    value={newReservation.reservationDate}
+                    onChange={(e) => setNewReservation({ ...newReservation, reservationDate: e.target.value })}
                 />
-                <input
-                    type="time"
-                    placeholder="Reservation Time"
-                    value={newReservation.reservationDate?.split("T")[1]?.slice(0, 5) || ""}
-                    onChange={(e) =>
-                        setNewReservation({
-                            ...newReservation,
-                            hour: e.target.value
-                        })
-                    }
-                /><br/>
-                <button onClick={addReservation}>Add</button>
+                <select
+                    value={newReservation.reservationHour}
+                    onChange={(e) => setNewReservation({ ...newReservation, reservationHour: e.target.value })}
+                >
+                    <option value="">Select Time</option>
+                    {generateTimeOptions().map((time, index) => (
+                        <option key={index} value={time}>
+                            {time}
+                        </option>
+                    ))}
+                </select>
+                <br />
+                <button onClick={addReservation}>Add Reservation</button>
             </div>
+
+            <h2>Reservations List</h2>
             <table border="1">
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Mail</th>
-                    <th>Date</th>
+                    <th>Email</th>
+                    <th>Date and Time</th>
                     <th>Status</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -126,22 +139,19 @@ const ReservationList = () => {
                     <tr key={reservation.id}>
                         <td>{reservation.name}</td>
                         <td>{reservation.email}</td>
-                        <td>{reservation.reservationDate.split("T")[0] + ' ' + reservation.reservationDate.split("T")[1].slice(0, 5)}</td>
+                        <td>{reservation.reservationDate+ ' ' + reservation.reservationHour}</td>
                         <td>{reservation.status}</td>
                         <td>
-                            <button className="sm primary"
-                                    onClick={() => editReservation(reservation)}>Edit
-                            </button>
+                            <button className="sm primary" onClick={() => editReservation(reservation)}>Edit</button>
                         </td>
                         <td>
-                            <button className="sm danger"
-                                    onClick={() => deleteReservation(reservation.id)}>Delete
-                            </button>
+                            <button className="sm danger" onClick={() => deleteReservation(reservation.id)}>Delete</button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+
             <EditReservationModal
                 show={showEditModal}
                 onClose={() => setShowEditModal(false)}
